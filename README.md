@@ -4,7 +4,7 @@
 SGFS, a open source file server, implement by golang that can be used to upload and download files. Simple to deploy, simple to use. 
 
 ## Advantage
-- *SGFS* is easy to configure and deploy. (use yaml config and have no runtime dependencies)
+- *SGFS* is easy to configure and deploy. (use yaml config and **have no runtime dependencies**)
 
 - *SGFS* is easy to start and stop. (use **./startup.sh** to start and use **./shutdown.sh** to stop)
 
@@ -13,8 +13,10 @@ SGFS, a open source file server, implement by golang that can be used to upload 
 - *SGFS* use fasthttp to implement. (strong ability to deal with concurrent problems and fast speed. [https://github.com/valyala/fasthttp])
 
 ## Quick Start
--  Download release version.
--  Config *conf.yml* .
+-  Download release version.  
+    https://github.com/LinkinStars/sgfs/releases
+-  Configure *conf.yml* .  
+(You don't have to configure it, but you'd better have a look.)
 -  Start server
 
     ````
@@ -22,7 +24,7 @@ SGFS, a open source file server, implement by golang that can be used to upload 
     ````
     
 - Test to upload file  
-I use postman to test like this and you can use any other methods(by HTTP).
+I use postman to test and you can use any other methods(by HTTP).
 ![](images/upload.jpg)
 If the response json have code and the code is 1, Congratulations, the file upload success. If not, you can follow the message to fix the problem.
 
