@@ -1,0 +1,17 @@
+# Maximum size of single upload file (in MB)
+max_upload_size: 20
+
+# Maximum overall request size (in MB)
+max_request_body: 30
+
+# File Operating Port
+operation_port: 9001
+
+# File Visit port
+visit_port: 9002
+
+# Operation certificate
+operation_token: 654321
+
+# Whether generate a file directory index (index page url is "http://127.0.0.1:9002/")
+generate_index_pages: true
