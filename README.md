@@ -24,7 +24,8 @@ SGFS, a open source file server, implement by golang that can be used to upload 
     ````
     
 - Test to upload file  
-I use postman to test and you can use any other methods(by HTTP).
+I use postman to test and you can use any other methods(by HTTP).  
+The default url is **http://127.0.0.1:9001/upload-file**
 ![](images/upload.jpg)
 If the response json have code and the code is 1, Congratulations, the file upload success. If not, you can follow the message to fix the problem.
 
@@ -43,11 +44,14 @@ If the response json have code and the code is 1, Congratulations, the file uplo
     ````
     $ ./shutdown.sh
     ````
+    
+    
+**PS: Note that the default file operation port is 9001, and the default file access port is 9002, which is different.**
 
 ## HTTP
 
 #### Upload file
-Url : "http://127.0.0.1:8080/upload-file"  
+Url : "http://127.0.0.1:9001/upload-file"  
 Method : "http + post + multipart/form-data"  
 
 Request  
@@ -71,8 +75,10 @@ Response
 code = 1 means success  
 code != 1 means fail  
 
+---
+
 #### Delete file
-Url : "http://127.0.0.1:8080/delete-file"  
+Url : "http://127.0.0.1:9001/delete-file"  
 Method : "http + post + multipart/form-data"  
 
 Request  
