@@ -2,7 +2,7 @@ package config
 
 import (
 	"github.com/jinzhu/configor"
-	log "github.com/sirupsen/logrus"
+	"go.uber.org/zap"
 )
 
 var GlobalConfig = struct {
@@ -33,6 +33,8 @@ func LoadConf() {
 	if err := configor.Load(&GlobalConfig, "conf.yml"); err != nil {
 		panic(err)
 	}
+
+	log := zap.S()
 
 	log.Infof("The current file server configuration is:  ")
 	log.Infof("# Max_Upload_Size    %dM", GlobalConfig.Max_Upload_Size)

@@ -1,11 +1,12 @@
 package service
 
 import (
-	"sgfs/config"
-	"sgfs/util/file_util"
 	"strings"
 
-	log "github.com/sirupsen/logrus"
+	"go.uber.org/zap"
+
+	"github.com/LinkinStars/sgfs/config"
+	"github.com/LinkinStars/sgfs/util/file_util"
 	"github.com/valyala/fasthttp"
 )
 
@@ -25,7 +26,7 @@ func DeleteFileHandler(ctx *fasthttp.RequestCtx) {
 
 	fileUrl = config.GlobalConfig.Upload_Path + fileUrl
 	if err := file_util.DeleteFile(fileUrl); err != nil {
-		log.Error(err)
+		zap.S().Error(err)
 		SendResponse(ctx, -1, "Delete file error.", err.Error())
 		return
 	}

@@ -2,13 +2,13 @@ package service
 
 import (
 	"path"
-	"sgfs/config"
-	"sgfs/util"
-	"sgfs/util/date_util"
 	"strings"
 
-	log "github.com/sirupsen/logrus"
+	"github.com/LinkinStars/golang-util/gu"
+	"github.com/LinkinStars/sgfs/config"
+	"github.com/LinkinStars/sgfs/util/date_util"
 	"github.com/valyala/fasthttp"
+	"go.uber.org/zap"
 )
 
 func UploadFileHandler(ctx *fasthttp.RequestCtx) {
@@ -42,8 +42,8 @@ func UploadFileHandler(ctx *fasthttp.RequestCtx) {
 	visitPath := "/" + uploadSubPath + "/" + date_util.GetCurTimeFormat(date_util.YYYYMMDD)
 
 	dirPath := config.GlobalConfig.Upload_Path + visitPath
-	if err := util.CreateDirIfNotExist(dirPath); err != nil {
-		log.Error(err)
+	if err := gu.CreateDirIfNotExist(dirPath); err != nil {
+		zap.S().Error(err)
 		SendResponse(ctx, -1, "Failed to create folder.", nil)
 		return
 	}
@@ -56,7 +56,7 @@ func UploadFileHandler(ctx *fasthttp.RequestCtx) {
 
 	// Guarantee that the filename does not duplicate
 	for {
-		if !util.CheckPathIfNotExist(fileAllPath) {
+		if !gu.CheckPathIfNotExist(fileAllPath) {
 			break
 		}
 		filename = createFileName(suffix)
@@ -65,7 +65,7 @@ func UploadFileHandler(ctx *fasthttp.RequestCtx) {
 
 	// Save file
 	if err := fasthttp.SaveMultipartFile(header, fileAllPath); err != nil {
-		log.Error(err)
+		zap.S().Error(err)
 		SendResponse(ctx, -1, "Save file fail.", err.Error())
 	}
 
@@ -75,5 +75,5 @@ func UploadFileHandler(ctx *fasthttp.RequestCtx) {
 
 func createFileName(suffix string) string {
 	// Date and Time + _ + Random Number + File Suffix
-	return date_util.GetCurTimeFormat(date_util.YYYYMMddHHmmss) + "_" + util.GenerateRandomNumber(10) + suffix
+	return date_util.GetCurTimeFormat(date_util.YYYYMMddHHmmss) + "_" + gu.GenerateRandomNumber(10) + suffix
 }

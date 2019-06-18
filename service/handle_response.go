@@ -3,9 +3,8 @@ package service
 import (
 	"encoding/json"
 
-	"github.com/gpmgo/gopm/modules/log"
-
 	"github.com/valyala/fasthttp"
+	"go.uber.org/zap"
 )
 
 var (
@@ -31,7 +30,7 @@ func SendResponse(ctx *fasthttp.RequestCtx, code int, message string, data inter
 
 	jsonStr, err := json.Marshal(responseJson)
 	if err != nil {
-		log.Error("marshal json fail \n" + err.Error())
+		zap.S().Error("marshal json fail \n" + err.Error())
 	}
 
 	ctx.Response.SetBody(jsonStr)

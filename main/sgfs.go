@@ -1,28 +1,25 @@
 package main
 
 import (
-	"sgfs/config"
-	"sgfs/logger"
-	"sgfs/service"
-	"sgfs/util"
-	"time"
+	"github.com/LinkinStars/golang-util/gu"
+	"github.com/LinkinStars/sgfs/config"
+	"github.com/LinkinStars/sgfs/service"
+	"go.uber.org/zap"
 
 	"github.com/buaazp/fasthttprouter"
-	log "github.com/sirupsen/logrus"
 	"github.com/valyala/fasthttp"
 )
 
 func main() {
-	// init log system
-	logger.ConfigFilesystemLogger("sgfs", 7*24*time.Hour, 24*time.Hour)
+	gu.InitEasyZapDefault("sgfs")
 
 	// load conf
 	config.LoadConf()
 
-	log.Info("Simple golang file server is starting...")
+	zap.S().Info("Simple golang file server is starting...")
 
 	// Create the uploaded file directory if it does not exist
-	if err := util.CreateDirIfNotExist(config.GlobalConfig.Upload_Path); err != nil {
+	if err := gu.CreateDirIfNotExist(config.GlobalConfig.Upload_Path); err != nil {
 		panic(err)
 	}
 
@@ -45,7 +42,7 @@ func startStaticFileServer() {
 
 	go func() {
 		if err := fasthttp.ListenAndServe(config.GlobalConfig.Visit_Port, fs.NewRequestHandler()); err != nil {
-			log.Panic(err)
+			panic(err)
 		}
 	}()
 }
@@ -62,6 +59,6 @@ func startOperationServer() {
 	}
 
 	if err := fastServer.ListenAndServe(config.GlobalConfig.Operation_Port); err != nil {
-		log.Panic(err)
+		panic(err)
 	}
 }
