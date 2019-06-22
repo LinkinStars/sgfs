@@ -102,3 +102,8 @@ code = 1 means success
 code != 1 means fail  
 
 
+## About Update
+When you want to update the sgfs, please note the following points.
+1. **Do not** delete upload folder because it saved files.
+2. If you modify the `conf.yml` about old version please backup it before update.
+3. Download release version and decompression to update. Easy.

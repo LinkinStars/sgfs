@@ -34,7 +34,7 @@ func startStaticFileServer() {
 
 		// Generate a file directory index. If true, access to the root path can see all the files stored.
 		// In a production environment, it is recommended to set false
-		GenerateIndexPages: true,
+		GenerateIndexPages: config.GlobalConfig.Generate_Index_Pages,
 
 		// Open compression for bandwidth savings
 		Compress: true,

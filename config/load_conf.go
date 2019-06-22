@@ -25,7 +25,7 @@ var GlobalConfig = struct {
 	Operation_Token string `default:"123456"`
 
 	// Generate a file directory index
-	Generate_Index_Pages bool `default:"true"`
+	Generate_Index_Pages bool
 }{}
 
 func LoadConf() {
@@ -42,6 +42,7 @@ func LoadConf() {
 	log.Infof("# Operation_Port     %s", GlobalConfig.Operation_Port)
 	log.Infof("# Visit_Port     %s", GlobalConfig.Visit_Port)
 	log.Infof("# Operation_Token     %s", GlobalConfig.Operation_Token)
+	log.Infof("# Generate_Index_Pages     %t", GlobalConfig.Generate_Index_Pages)
 
 	GlobalConfig.Max_Upload_Size *= MB
 	GlobalConfig.Max_Request_Body_Size *= MB
