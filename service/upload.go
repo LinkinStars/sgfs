@@ -5,10 +5,11 @@ import (
 	"strings"
 
 	"github.com/LinkinStars/golang-util/gu"
-	"github.com/LinkinStars/sgfs/config"
-	"github.com/LinkinStars/sgfs/util/date_util"
 	"github.com/valyala/fasthttp"
 	"go.uber.org/zap"
+
+	"github.com/LinkinStars/sgfs/config"
+	"github.com/LinkinStars/sgfs/util/date_util"
 )
 
 func UploadFileHandler(ctx *fasthttp.RequestCtx) {

@@ -2,9 +2,10 @@ package main
 
 import (
 	"github.com/LinkinStars/golang-util/gu"
+	"go.uber.org/zap"
+
 	"github.com/LinkinStars/sgfs/config"
 	"github.com/LinkinStars/sgfs/service"
-	"go.uber.org/zap"
 
 	"github.com/buaazp/fasthttprouter"
 	"github.com/valyala/fasthttp"
@@ -50,6 +51,11 @@ func startStaticFileServer() {
 func startOperationServer() {
 	router := fasthttprouter.New()
 
+	// Add panic handler
+	router.PanicHandler = func(ctx *fasthttp.RequestCtx, err interface{}) {
+		zap.S().Error(err)
+		service.SendResponse(ctx, -1, "Unexpected error", err)
+	}
 	router.POST("/upload-file", service.UploadFileHandler)
 	router.POST("/delete-file", service.DeleteFileHandler)
 
