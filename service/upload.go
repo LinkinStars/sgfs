@@ -21,28 +21,24 @@ func UploadFileHandler(ctx *fasthttp.RequestCtx) {
 	}
 
 	// Check File Size
-	if header.Size > int64(config.GlobalConfig.Max_Upload_Size) {
+	if header.Size > int64(config.GlobalConfig.MaxUploadSize) {
 		SendResponse(ctx, -1, "File size exceeds limit.", nil)
 		return
 	}
 
 	// authentication
 	token := string(ctx.FormValue("token"))
-	if strings.Compare(token, config.GlobalConfig.Operation_Token) != 0 {
+	if strings.Compare(token, config.GlobalConfig.OperationToken) != 0 {
 		SendResponse(ctx, -1, "Token error.", nil)
 		return
 	}
 
 	// Check upload File Path
 	uploadSubPath := string(ctx.FormValue("uploadSubPath"))
-	if strings.Index(uploadSubPath, "/") != -1 {
-		SendResponse(ctx, -1, "UploadSubPath error.", nil)
-		return
-	}
 
 	visitPath := "/" + uploadSubPath + "/" + date_util.GetCurTimeFormat(date_util.YYYYMMDD)
 
-	dirPath := config.GlobalConfig.Upload_Path + visitPath
+	dirPath := config.GlobalConfig.UploadPath + visitPath
 	if err := gu.CreateDirIfNotExist(dirPath); err != nil {
 		zap.S().Error(err)
 		SendResponse(ctx, -1, "Failed to create folder.", nil)

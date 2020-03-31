@@ -5,15 +5,16 @@ import (
 
 	"go.uber.org/zap"
 
+	"github.com/valyala/fasthttp"
+
 	"github.com/LinkinStars/sgfs/config"
 	"github.com/LinkinStars/sgfs/util/file_util"
-	"github.com/valyala/fasthttp"
 )
 
 func DeleteFileHandler(ctx *fasthttp.RequestCtx) {
 	// authentication
 	token := string(ctx.FormValue("token"))
-	if strings.Compare(token, config.GlobalConfig.Operation_Token) != 0 {
+	if strings.Compare(token, config.GlobalConfig.OperationToken) != 0 {
 		SendResponse(ctx, -1, "Token error.", nil)
 		return
 	}
@@ -24,7 +25,7 @@ func DeleteFileHandler(ctx *fasthttp.RequestCtx) {
 		return
 	}
 
-	fileUrl = config.GlobalConfig.Upload_Path + fileUrl
+	fileUrl = config.GlobalConfig.UploadPath + fileUrl
 	if err := file_util.DeleteFile(fileUrl); err != nil {
 		zap.S().Error(err)
 		SendResponse(ctx, -1, "Delete file error.", err.Error())

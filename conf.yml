@@ -2,7 +2,10 @@
 max_upload_size: 20
 
 # Maximum overall request size (in MB)
-max_request_body: 30
+max_request_body_size: 30
+
+# root path for upload file
+upload_path: upload
 
 # File Operating Port
 operation_port: 9001

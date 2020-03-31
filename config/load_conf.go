@@ -1,52 +1,53 @@
 package config
 
 import (
-	"github.com/jinzhu/configor"
+	"github.com/spf13/viper"
 	"go.uber.org/zap"
 )
 
 var GlobalConfig = struct {
 	// Maximum size of single upload file
-	Max_Upload_Size int `default:"20"`
+	MaxUploadSize int `mapstructure:"max_upload_size"`
 
 	// Maximum overall request size
-	Max_Request_Body_Size int `default:"30"`
+	MaxRequestBodySize int `mapstructure:"max_request_body_size"`
 
 	// Upload file root directory
-	Upload_Path string `default:"upload"`
+	UploadPath string `mapstructure:"upload_path"`
 
 	// File Operating Port
-	Operation_Port string `default:"8080"`
+	OperationPort string `mapstructure:"operation_port"`
 
 	// File Visit port
-	Visit_Port string `default:"8081"`
+	VisitPort string `mapstructure:"visit_port"`
 
 	// Operation certificate
-	Operation_Token string `default:"123456"`
+	OperationToken string `mapstructure:"operation_token"`
 
 	// Generate a file directory index
-	Generate_Index_Pages bool
+	GenerateIndexPages bool `mapstructure:"generate_index_pages"`
 }{}
 
 func LoadConf() {
-	// load config info
-	if err := configor.Load(&GlobalConfig, "conf.yml"); err != nil {
+	configVip := viper.New()
+	configVip.SetConfigFile("conf.yml")
+
+	if err := configVip.ReadInConfig(); err != nil {
+		panic(err)
+	}
+
+	if err := configVip.Unmarshal(&GlobalConfig); err != nil {
 		panic(err)
 	}
 
 	log := zap.S()
 
-	log.Infof("The current file server configuration is:  ")
-	log.Infof("# Max_Upload_Size    %dM", GlobalConfig.Max_Upload_Size)
-	log.Infof("# Max_Request_Body_Size    %dM", GlobalConfig.Max_Request_Body_Size)
-	log.Infof("# Operation_Port     %s", GlobalConfig.Operation_Port)
-	log.Infof("# Visit_Port     %s", GlobalConfig.Visit_Port)
-	log.Infof("# Operation_Token     %s", GlobalConfig.Operation_Token)
-	log.Infof("# Generate_Index_Pages     %t", GlobalConfig.Generate_Index_Pages)
+	log.Info("The current file server configuration is:")
+	log.Infof("%+v", GlobalConfig)
 
-	GlobalConfig.Max_Upload_Size *= MB
-	GlobalConfig.Max_Request_Body_Size *= MB
+	GlobalConfig.MaxUploadSize *= MB
+	GlobalConfig.MaxRequestBodySize *= MB
 
-	GlobalConfig.Operation_Port = ":" + GlobalConfig.Operation_Port
-	GlobalConfig.Visit_Port = ":" + GlobalConfig.Visit_Port
+	GlobalConfig.OperationPort = ":" + GlobalConfig.OperationPort
+	GlobalConfig.VisitPort = ":" + GlobalConfig.VisitPort
 }
