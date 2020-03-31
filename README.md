@@ -107,3 +107,9 @@ When you want to update the sgfs, please note the following points.
 1. **Do not** delete upload folder because it saved files.
 2. If you modify the `conf.yml` about old version please backup it before update.
 3. Download release version and decompression to update. Easy.
+
+## TODO
+- [ ] remove startup and shutdown scripts
+- [ ] add cli commands to start server and shutdown
+- [ ] code cleanup
+- [ ] add unit tests
